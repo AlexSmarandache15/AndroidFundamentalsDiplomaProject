@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/alexs/Desktop/arams_travel_2021/darkside_apps/src/main/res/layout/activity_new_trip.xml" value="0.2346014492753623" />
+        <entry key="..\:/Users/alexs/Desktop/arams_travel_2021/darkside_apps/src/main/res/layout/activity_view_trip.xml" value="0.1328125" />
+        <entry key="..\:/Users/alexs/Desktop/arams_travel_2021/darkside_apps/src/main/res/layout/fragment_contact.xml" value="0.2346014492753623" />
+        <entry key="..\:/Users/alexs/Desktop/arams_travel_2021/darkside_apps/src/main/res/layout/nav_header_main.xml" value="0.1328125" />
+        <entry key="..\:/Users/alexs/Desktop/arams_travel_2021/darkside_apps/src/main/res/layout/trip_item.xml" value="0.1328125" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/gradient.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_baseline_alternate_email_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_baseline_ice_skating_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_baseline_mail_outline_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.14895833333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_baseline_star_outline_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_baseline_today_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_menu_camera.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.14895833333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_outline_alternate_email_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_outline_category_24.xml" value="0.14895833333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_outline_cloud_24.xml" value="0.14895833333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_outline_delete_24.xml" value="0.14895833333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_outline_fingerprint_24.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_outline_house_24.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_outline_ice_skating_24.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_outline_info_24.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_outline_invert_colors_24.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_outline_monetization_on_24.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_outline_person_24.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/ic_outline_save_24.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/rounded_view.xml" value="0.14895833333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/side_nav_bar.xml" value="0.14895833333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/drawable/splash.xml" value="0.1" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/activity_home.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/activity_new_trip.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/activity_register.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/activity_view_trip.xml" value="0.2" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/app_bar_main.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/content_main.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/dropdown_item.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/fragment_about.xml" value="0.16" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/fragment_contact.xml" value="0.4" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/fragment_home.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/nav_header_main.xml" value="0.4" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/layout/trip_item.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/menu/activity_main_drawer.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/menu/home.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/darkside_apps/src/main/res/layout/fragment_contact.xml" value="0.1328125" />
+        <entry key="..\:/Users/alexs/Desktop/travel-journal-main/darkside_apps/src/main/res/layout/trip_item.xml" value="0.12708333333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

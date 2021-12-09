@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="@dimen/medium_padding"
+    tools:context=".sign_in.LoginActivity">
+
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/icon_height"
+        android:layout_above="@id/linear_layout_login"
+        android:layout_centerInParent="true"
+        android:backgroundTint="@color/white"
+        android:contentDescription="@string/app_logo"
+        android:src="@drawable/logo" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/medium_padding"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/medium_margin">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:gravity="center"
+            android:text="@string/welcome_message"
+            android:textSize="@dimen/welcome_text_size"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_field_email"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            app:startIconDrawable="@drawable/ic_outline_alternate_email_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_field_email_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_field_password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:hint="@string/password"
+            app:startIconDrawable="@drawable/ic_outline_fingerprint_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_field_password_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:onClick="startLogin"
+            android:text="@string/login"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_layout_login"
+        android:layout_marginTop="@dimen/small_margin"
+        android:backgroundTint="@color/white"
+        android:onClick="openRegisterActivity"
+        android:text="@string/sign_up" />
+</RelativeLayout>

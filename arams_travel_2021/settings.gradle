@@ -1,0 +1,2 @@
+include ':darkside_apps'
+rootProject.name = "Travel Journal"
