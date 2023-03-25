@@ -78,7 +78,7 @@
     <string name="contact_instagram">https://www.instagram.com/alex.smarandache/</string>
     <string name="contact_linkedin">https://www.linkedin.com/in/alexandru-smarandache-15012001/</string>
     <string name="contact_github">https://github.com/AlexSmarandache15</string>
-    <string name="the_weather_right_now">The weather at his moment!</string>
+    <string name="the_weather_right_now">The weather at this moment!</string>
     <string name="degree_symbol">°</string>
     <string name="wind_unit">m/s</string>
     <string name="cloud_unit">%</string>
@@ -86,4 +86,5 @@
     <string name="loading_weather">Loading weather…</string>
     <string name="weather_not_available">The weather is not available for this location:( Please try again later!</string>
     <string name="no_internet_permission">We cannot update the weather without permission to access the Internet:(</string>
+    <string name="your_city_temp">Your current city temperature is %d°.</string>
 </resources>

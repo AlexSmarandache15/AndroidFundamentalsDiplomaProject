@@ -28,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         ApplicationController.setLoggedInUser(gson.fromJson(preferences.getString(ApplicationController.LOGGED_IN_USER, ""), User.class), this);
 
-        startActivity(ApplicationController.getLoggedInUser() != null ?
-                new Intent(this, HomeActivity.class) :
-                new Intent(this, LoginActivity.class));
+        startActivity(
+                new Intent(this,
+                        ApplicationController.getLoggedInUser() != null ? HomeActivity.class : LoginActivity.class));
 
         finish();
     }

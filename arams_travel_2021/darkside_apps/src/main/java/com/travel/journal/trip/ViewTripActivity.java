@@ -2,9 +2,19 @@ package com.travel.journal.trip;
 
 import static android.Manifest.permission.INTERNET;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,19 +32,19 @@ import androidx.room.Room;
 
 import com.travel.journal.ApplicationController;
 import com.travel.journal.R;
-import com.travel.journal.weather.RetrofitUtil;
-import com.travel.journal.weather.Weather;
-import com.travel.journal.weather.WeatherApi;
 import com.travel.journal.room.Trip;
 import com.travel.journal.room.TripDao;
 import com.travel.journal.room.TripDataBase;
+import com.travel.journal.weather.RetrofitUtil;
+import com.travel.journal.weather.Weather;
+import com.travel.journal.weather.WeatherApi;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
@@ -42,12 +52,7 @@ import retrofit2.Response;
  *
  * @author Alex_Smarandache
  */
-public class ViewTripActivity extends AppCompatActivity {
-
-    /**
-     * The trip DAO.
-     */
-    private TripDao     tripDao;
+public class ViewTripActivity extends AppCompatActivity implements LocationListener {
 
     /**
      * The current trip.
@@ -65,6 +70,11 @@ public class ViewTripActivity extends AppCompatActivity {
     private ImageView   tripPicture;
 
     /**
+     * The last user location.
+     */
+    private String      lastLocation = "";
+
+    /**
      * Used to store the information about weather.
      */
     private final LocalWeatherInformationStorage weatherInfo
@@ -80,18 +90,54 @@ public class ViewTripActivity extends AppCompatActivity {
      */
     private static final int INTERNET_PERMISSION = 1;
 
+    @Override
+    public void onLocationChanged(Location location) {
+        final Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            final List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if (!addresses.isEmpty()) {
+                final String city = addresses.get(0).getLocality();
+                final String country = addresses.get(0).getCountryName();
+                final String newLocation = new StringBuilder(country).append(',').append(' ').append(city).toString();
+                if(!lastLocation.equals(newLocation)) {
+                    lastLocation = newLocation;
+                    updateCurrentLocationWeather(lastLocation);
+                }
+            }
+        } catch (IOException e) {
+            Log.e("GetLocation", e.getMessage(), e);
+        }
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // Not used
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        // Not used
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        // Not used
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_trip);
 
-        TripDataBase tripDataBase = Room.databaseBuilder(this, TripDataBase.class, ApplicationController.TRIPS_DB_NAME).allowMainThreadQueries().build();
+        final TripDataBase tripDataBase =
+                Room.databaseBuilder(this, TripDataBase.class,
+                        ApplicationController.TRIPS_DB_NAME).allowMainThreadQueries().build();
 
-        tripDao       = tripDataBase.getTripDao();
-        Bundle extras = getIntent().getExtras();
-        long tripId   = extras.getLong(ApplicationController.VIEW_TRIP_ID);
-        trip          = tripDao.getTrip(tripId);
+        final TripDao tripDao = tripDataBase.getTripDao();
+        Bundle extras         = getIntent().getExtras();
+        long tripId           = extras.getLong(ApplicationController.VIEW_TRIP_ID);
+        trip                  = tripDao.getTrip(tripId);
 
         List<String> tripTypes = Arrays.asList(
                 getString(R.string.city_break),
@@ -120,9 +166,26 @@ public class ViewTripActivity extends AppCompatActivity {
             favoriteButton.setImageResource(R.drawable.ic_baseline_star_24);
         }
 
-       loadWeather();
+        loadWeather();
+        final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        // Check if GPS is enabled
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            // GPS is not enabled, show a dialog to the user to enable it
+            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+        }
+
+        // Request location updates
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        }
     }
 
+    /**
+     * Check if the internet permission is given and request it to continue.
+     */
     private void checkForInternetPermission() {
         if (ContextCompat.checkSelfPermission(ViewTripActivity.this, INTERNET) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(ViewTripActivity.this, new String[]{INTERNET}, INTERNET_PERMISSION);
@@ -179,6 +242,26 @@ public class ViewTripActivity extends AppCompatActivity {
         weatherLoader.startLoading();
     }
 
+    /**
+     * Loads the weather for the current trip.
+     */
+    private void updateCurrentLocationWeather(final String destination) {
+        final WeatherLoader weatherLoader = new WeatherLoader(this, destination, API_TOKEN, "metric");
+
+        weatherLoader.registerListener(0, new Loader.OnLoadCompleteListener<Weather>() {
+            @SuppressLint("DefaultLocale")
+            @Override
+            public void onLoadComplete(@NonNull Loader<Weather> loader, Weather data) {
+                weatherLoader.unregisterListener(this);
+
+                if (data != null) {
+                    weatherInfo.currentWeather.setText(String.format(getString(R.string.your_city_temp), data.getCurrentTemperature()));
+                }
+            }
+        });
+
+        weatherLoader.startLoading();
+    }
 
     /**
      * Has the responsibility to initialize all components.
@@ -202,6 +285,7 @@ public class ViewTripActivity extends AppCompatActivity {
         weatherInfo.icon = findViewById(R.id.weather_icon);
         weatherInfo.constraintLayout = findViewById(R.id.weather_layout);
         weatherInfo.title = findViewById(R.id.weather_title);
+        weatherInfo.currentWeather = findViewById(R.id.current_weather);
         favoriteButton              = findViewById(R.id.button_favorite);
         tripPicture                 = findViewById(R.id.trip_picture);
 
@@ -213,6 +297,7 @@ public class ViewTripActivity extends AppCompatActivity {
         tripEndDate.setText(trip.getEndDate());
         tripRating.setText(String.valueOf(trip.getRating()));
     }
+
 
     /**
      * Inner class to store the weather details.
@@ -256,6 +341,11 @@ public class ViewTripActivity extends AppCompatActivity {
         private TextView title;
 
         /**
+         * The current weather.
+         */
+        private TextView currentWeather;
+
+        /**
          * The icon.
          */
         private ImageView icon;
@@ -269,7 +359,7 @@ public class ViewTripActivity extends AppCompatActivity {
     /**
      * A custom AsyncTaskLoader that loads weather data for a given destination using a Retrofit API call.
      */
-    public class WeatherLoader extends AsyncTaskLoader<Weather> {
+    public static class WeatherLoader extends AsyncTaskLoader<Weather> {
 
         /**
          * The destination for which to fetch weather data.
@@ -310,10 +400,11 @@ public class ViewTripActivity extends AppCompatActivity {
             Weather toReturn = null;
             final  WeatherApi service = RetrofitUtil.getRetrofitInstance().create(
                     WeatherApi.class);
+            Log.e("Destination", destination);
             final Call<Weather> call = service.getWeather(destination, apiToken, units);
 
             try {
-                Response<Weather> response = call.execute();
+                final Response<Weather> response = call.execute();
                 if (response.isSuccessful()) {
                     toReturn = response.body();
                 }

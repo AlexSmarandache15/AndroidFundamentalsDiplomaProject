@@ -282,6 +282,21 @@
                         app:layout_constraintStart_toEndOf="@+id/weather_clouds_value"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.501" />
+
+                    <TextView
+                        android:id="@+id/current_weather"
+                        android:layout_width="333dp"
+                        android:layout_height="20dp"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.533"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.653" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </RelativeLayout>
         </LinearLayout>
