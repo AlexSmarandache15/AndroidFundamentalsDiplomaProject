@@ -2,6 +2,7 @@ package com.travel.journal.trip;
 
 import static android.Manifest.permission.INTERNET;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.Loader;
 import androidx.room.Room;
 
 import com.travel.journal.ApplicationController;
@@ -26,6 +29,7 @@ import com.travel.journal.room.Trip;
 import com.travel.journal.room.TripDao;
 import com.travel.journal.room.TripDataBase;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -116,44 +120,7 @@ public class ViewTripActivity extends AppCompatActivity {
             favoriteButton.setImageResource(R.drawable.ic_baseline_star_24);
         }
 
-        WeatherApi service = RetrofitUtil.getRetrofitInstance().create(WeatherApi.class);
-        Call<Weather> call = service.getWeather(trip.getDestination(), API_TOKEN, "metric");
-
-        call.enqueue(new Callback<Weather>() {
-            @Override
-            public void onResponse(@NonNull Call<Weather> call, @NonNull Response<Weather> response) {
-                if(response.code() == 200) {
-                    Weather main = response.body();
-                    assert main != null;
-
-                    if (main.getCurrentTemperature() > 0) {
-                        weatherInfo.icon.setImageResource(R.drawable.ic_outline_wb_sunny_24);
-                        weatherInfo.icon.setColorFilter(ActivityCompat.getColor(ViewTripActivity.this, R.color.yellow_500));
-                    } else {
-                        weatherInfo.icon.setImageResource(R.drawable.ic_outline_ice_skating_24);
-                        weatherInfo.icon.setColorFilter(ActivityCompat.getColor(ViewTripActivity.this, R.color.blue_500));
-                    }
-
-                    weatherInfo.currentTemperature.setText(String.format("%s%s", main.getCurrentTemperature(), getString(R.string.degree_symbol)));
-                    weatherInfo.minimumTemperature.setText(String.format("%s%s", main.getMinTemperature(), getString(R.string.degree_symbol)));
-                    weatherInfo.maximumTemperature.setText(String.format("%s%s", main.getMaxTemperature(), getString(R.string.degree_symbol)));
-                    weatherInfo.wind.setText(String.format("%s %s", main.getWind(), getString(R.string.wind_unit)));
-                    weatherInfo.cloud.setText(String.format("%s%s", main.getClouds(), getString(R.string.cloud_unit)));
-                    weatherInfo.humidity.setText(String.format("%s%s", main.getHumidity(), getString(R.string.humidity_unit)));
-                    weatherInfo.title.setText(R.string.the_weather_right_now);
-                    weatherInfo.constraintLayout.setVisibility(View.VISIBLE);
-
-                } else {
-                    weatherInfo.title.setText(R.string.weather_not_available);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Weather> call, @NonNull Throwable t) {
-                weatherInfo.title.setText(R.string.weather_not_available);
-            }
-
-        });
+       loadWeather();
     }
 
     private void checkForInternetPermission() {
@@ -172,6 +139,44 @@ public class ViewTripActivity extends AppCompatActivity {
                 Toast.makeText(ViewTripActivity.this, R.string.no_internet_permission, Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    /**
+     * Loads the weather for the current trip.
+     */
+    private void loadWeather() {
+        final WeatherLoader weatherLoader = new WeatherLoader(this, trip.getDestination(), API_TOKEN, "metric");
+
+        weatherLoader.registerListener(0, new Loader.OnLoadCompleteListener<Weather>() {
+            @Override
+            public void onLoadComplete(@NonNull Loader<Weather> loader, Weather data) {
+                weatherLoader.unregisterListener(this);
+
+                if (data != null) {
+                    if (data.getCurrentTemperature() > 0) {
+                        weatherInfo.icon.setImageResource(R.drawable.ic_outline_wb_sunny_24);
+                        weatherInfo.icon.setColorFilter(ActivityCompat.getColor(ViewTripActivity.this, R.color.yellow_500));
+                    } else {
+                        weatherInfo.icon.setImageResource(R.drawable.ic_outline_ice_skating_24);
+                        weatherInfo.icon.setColorFilter(ActivityCompat.getColor(ViewTripActivity.this, R.color.blue_500));
+                    }
+
+                    weatherInfo.currentTemperature.setText(String.format("%s%s", data.getCurrentTemperature(), getString(R.string.degree_symbol)));
+                    weatherInfo.minimumTemperature.setText(String.format("%s%s", data.getMinTemperature(), getString(R.string.degree_symbol)));
+                    weatherInfo.maximumTemperature.setText(String.format("%s%s", data.getMaxTemperature(), getString(R.string.degree_symbol)));
+                    weatherInfo.wind.setText(String.format("%s %s", data.getWind(), getString(R.string.wind_unit)));
+                    weatherInfo.cloud.setText(String.format("%s%s", data.getClouds(), getString(R.string.cloud_unit)));
+                    weatherInfo.humidity.setText(String.format("%s%s", data.getHumidity(), getString(R.string.humidity_unit)));
+                    weatherInfo.title.setText(R.string.the_weather_right_now);
+                    weatherInfo.constraintLayout.setVisibility(View.VISIBLE);
+
+                } else {
+                    weatherInfo.title.setText(R.string.weather_not_available);
+                }
+            }
+        });
+
+        weatherLoader.startLoading();
     }
 
 
@@ -259,5 +264,72 @@ public class ViewTripActivity extends AppCompatActivity {
          * The constraint layout.
          */
         private ConstraintLayout constraintLayout;
+    }
+
+    /**
+     * A custom AsyncTaskLoader that loads weather data for a given destination using a Retrofit API call.
+     */
+    public class WeatherLoader extends AsyncTaskLoader<Weather> {
+
+        /**
+         * The destination for which to fetch weather data.
+         */
+        private final String destination;
+
+        /**
+         * The API token to use for the weather service.
+         */
+        private final String apiToken;
+
+        /**
+         * The units to use for the weather data (e.g. metric or imperial).
+         */
+        private final String units;
+
+        /**
+         * Constructs a new WeatherLoader instance.
+         * @param context The context in which to load the data.
+         * @param destination The destination for which to fetch weather data.
+         * @param apiToken The API token to use for the weather service.
+         * @param units The units to use for the weather data (e.g. metric or imperial).
+         */
+        public WeatherLoader(Context context, String destination, String apiToken, String units) {
+            super(context);
+            this.destination = destination;
+            this.apiToken = apiToken;
+            this.units = units;
+        }
+        /**
+
+         Loads the weather data for the given destination using a Retrofit API call.
+
+         @return The weather data for the given destination, or null if an error occurs.
+         */
+        @Override
+        public Weather loadInBackground() {
+            Weather toReturn = null;
+            final  WeatherApi service = RetrofitUtil.getRetrofitInstance().create(
+                    WeatherApi.class);
+            final Call<Weather> call = service.getWeather(destination, apiToken, units);
+
+            try {
+                Response<Weather> response = call.execute();
+                if (response.isSuccessful()) {
+                    toReturn = response.body();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return toReturn;
+        }
+
+        /**
+         * Starts the loader, forcing it to load data.
+         */
+        @Override
+        protected void onStartLoading() {
+            forceLoad();
+        }
     }
 }
