@@ -400,7 +400,6 @@ public class ViewTripActivity extends AppCompatActivity implements LocationListe
             Weather toReturn = null;
             final  WeatherApi service = RetrofitUtil.getRetrofitInstance().create(
                     WeatherApi.class);
-            Log.e("Destination", destination);
             final Call<Weather> call = service.getWeather(destination, apiToken, units);
 
             try {
@@ -409,7 +408,7 @@ public class ViewTripActivity extends AppCompatActivity implements LocationListe
                     toReturn = response.body();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e("LoadWeather", e.getMessage(), e);
             }
 
             return toReturn;
