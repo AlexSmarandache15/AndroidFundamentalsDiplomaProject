@@ -15,6 +15,16 @@ import com.travel.journal.room.User;
 public abstract class ApplicationController {
 
     /**
+     * The channel Id for notifications.
+     */
+    public final static String CHANNEL_ID = "arams.travel.notif.chanel";
+
+    /**
+     * The channel name for notifications.
+     */
+    public final static String CHANNEL_NAME = "AramsTravel";
+
+    /**
      * Constant for logged in user.
      */
     public final static String LOGGED_IN_USER = "LOGGED_IN_USER";

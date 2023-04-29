@@ -30,7 +30,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
      *
      * @param trips The trips list.
      */
-    public TripAdapter(List<Trip> trips) {
+    public TripAdapter(final List<Trip> trips) {
         this.trips = trips;
     }
 

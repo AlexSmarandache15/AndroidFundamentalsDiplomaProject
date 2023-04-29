@@ -99,7 +99,7 @@ public class ViewTripActivity extends AppCompatActivity implements LocationListe
                 final String city = addresses.get(0).getLocality();
                 final String country = addresses.get(0).getCountryName();
                 final String newLocation = new StringBuilder(country).append(',').append(' ').append(city).toString();
-                if(!lastLocation.equals(newLocation)) {
+                 if(!lastLocation.equals(newLocation)) {
                     lastLocation = newLocation;
                     updateCurrentLocationWeather(lastLocation);
                 }
@@ -358,8 +358,10 @@ public class ViewTripActivity extends AppCompatActivity implements LocationListe
 
     /**
      * A custom AsyncTaskLoader that loads weather data for a given destination using a Retrofit API call.
+     *
+     * @author Alex_Smarandache
      */
-    public static class WeatherLoader extends AsyncTaskLoader<Weather> {
+    private static class WeatherLoader extends AsyncTaskLoader<Weather> {
 
         /**
          * The destination for which to fetch weather data.

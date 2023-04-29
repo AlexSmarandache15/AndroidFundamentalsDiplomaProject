@@ -1,7 +1,10 @@
 package com.travel.journal;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,9 +13,12 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.travel.journal.notifications.NotificationHelper;
 import com.travel.journal.sign_in.LoginActivity;
 import com.travel.journal.trip.NewTripActivity;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -49,6 +55,10 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            NotificationHelper.initializeNotificationChannel(getSystemService(NotificationManager.class));
+        }
 
         TextView navName;
         TextView navEmail;
